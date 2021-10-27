@@ -601,7 +601,43 @@ function dumpVars(){
 	echo spawn: $SPAWN
 	echo exit: $EXIT
 }
+function doOverflow(){
+        RESULT=$INTREG2
+        INTREG2=-1
+        roomsCounts=$(ls ./Rooms/ | wc -l)
+        roomsCounts=$(($roomsCounts - 5))
+        while [ $INTREG2 -gt $roomsCounts ]
+        do
+                INTREG2=$(($INTREG2 - $roomsCounts))
+        done
+        return $RESULT
+}
 
+function doLook(){
+        case $indexAt in
+                $KEY1)
+                        cat Rooms/0A.txt
+                        ;;
+                $KEY2)
+                        cat Rooms/0B.txt
+                        ;;
+                $KEY3)
+                        cat Rooms/0C.txt
+                        ;;
+                $SPAWN)
+                        cat Rooms/0E.txt
+                        ;;
+                $EXIT)
+                        cat Rooms/0D.txt
+                        ;;
+                *)
+                        INTREG2=$indexAt
+                        doOverflow
+                        cat ./Rooms/$(ls ./Rooms/ | sort | head -$(($? + 5)) | tail -1)
+                        ;;
+        esac
+	echo ""
+}
 function playGame(){
 	checkVars
 	if [ $DEBUG -eq 1 ]
