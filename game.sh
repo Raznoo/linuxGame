@@ -428,12 +428,10 @@ function randoPop(){
 }
 
 function printBoard(){
-	echo 1 = KEY1
-	echo 2 = KEY2
-	echo 3 = KEY3
-	echo 5 = SPAWN
-	echo 8 = player
-	echo 9 = EXIT
+	echo KEY = KEY1 / KEY 2 / KEY3
+	echo GO = SPAWN
+	echo ME = player
+	echo OUT = EXIT
 	echo
 	OUTPUT2=""
 	for j in $(seq 1 $(($num_cols * 5)))
@@ -558,16 +556,22 @@ function doGrab(){
 	then
 		KEY1=-1
 		echo You have found the first key!
+		
+		echo The room around you shakes and transforms in front of your eyes...
 		((keyBag++))	
 	elif [ $indexAt -eq $KEY2 ]
 	then
 		KEY2=-1
 		echo You have found the second key!
+
+		echo The room around you shakes and transforms in front of your eyes...
 		((keyBag++))
 	elif [ $indexAt -eq $KEY3 ]
 	then
 		KEY3=-1
 		echo You have found the third key!
+
+		echo The room around you shakes and transforms in front of your eyes...
 		((keyBag++))
 	else
 		echo There are no keys in this room!
@@ -617,12 +621,15 @@ function doLook(){
         case $indexAt in
                 $KEY1)
                         cat Rooms/0A.txt
+			echo "You see the glint of a key"
                         ;;
                 $KEY2)
                         cat Rooms/0B.txt
+			echo "You can faintly make out the glint of a key"
                         ;;
                 $KEY3)
                         cat Rooms/0C.txt
+			echo "You see the brilliant sparkling of a key"
                         ;;
                 $SPAWN)
                         cat Rooms/0E.txt
@@ -664,6 +671,9 @@ function playGame(){
 			"north")
 				STRREG1="NORTH"
 				doMove
+				;;
+			"look")
+				doLook
 				;;
 			"south")
 				STRREG1="SOUTH"
