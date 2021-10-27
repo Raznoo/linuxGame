@@ -13,6 +13,7 @@ KEY3=-1
 SPAWN=-1
 DEBUG=0
 
+
 #Registers for passing arguments
 STRREG=""
 STRREG1=""
@@ -24,6 +25,7 @@ ARRREG1=()
 #Player Status Registers
 keyBag=0
 indexAt=-1
+commands=0
 
 function getSingleCell(){
 	RESULT=-1
@@ -546,12 +548,12 @@ function doHelp(){
 	echo south:  move the player 1 unit south
 	echo help:   prints a list of commands
 	echo map:    prints a map of the current board
-	echo grab:   grabs the key in the room
+	echo take:   grabs the key in the room
 	echo exit:   exits the game
 	echo unlock: applies keys to doors in the room
 	echo
 }
-function doGrab(){
+function doTake(){
 	if [ $indexAt -eq $KEY1 ]
 	then
 		KEY1=-1
@@ -644,6 +646,8 @@ function doLook(){
                         ;;
         esac
 	echo ""
+	echo you have inputted $commands commands and have $keyBag keys
+	echo ""
 }
 function playGame(){
 	checkVars
@@ -659,6 +663,8 @@ function playGame(){
 	while true
 	do
 		read INPUT
+
+		((commands++))
 		case $INPUT in
 			"west")
 				STRREG1="WEST"
@@ -685,8 +691,8 @@ function playGame(){
 			"unlock")
 				doUnlock
 				;;
-			"grab")
-				doGrab
+			"take")
+				doTake
 				;;
 			"help")
 				doHelp
